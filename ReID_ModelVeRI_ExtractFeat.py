@@ -44,7 +44,7 @@ def main(args):
         transforms.ToTensor(),
         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
     image_dataset = datasets.ImageFolder(args.datadir,data_transform)
-    dataloader =  torch.utils.data.DataLoader(image_dataset, batch_size=1, shuffle=True, num_workers=1)
+    dataloader =  torch.utils.data.DataLoader(image_dataset, batch_size=1, shuffle=False, num_workers=1)
     dataset_size = len(image_dataset)
     class_names = image_dataset.classes
     n_cuda=args.ncuda
@@ -83,7 +83,6 @@ def main(args):
                 features[class_img].append(feat.cpu().detach().numpy())
             else:
                 features[class_img].append(feat.detach().numpy())
-                
         else:
             features[class_img] = []
             if device.type == 'cuda':
