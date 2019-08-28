@@ -36,6 +36,19 @@ class densenet_veri(nn.Module):
         x = self.classifier(f)
         return f, x
 
+class NumpyEncoder(json.JSONEncoder):
+    """ Special json encoder for numpy types """
+    def default(self, obj):
+        if isinstance(obj, (np.int_, np.intc, np.intp, np.int8,
+            np.int16, np.int32, np.int64, np.uint8,
+            np.uint16, np.uint32, np.uint64)):
+            return int(obj)
+        elif isinstance(obj, (np.float_, np.float16, np.float32, 
+            np.float64)):
+            return float(obj)
+        elif isinstance(obj,(np.ndarray,)): #### This is the fix
+            return obj.tolist()
+        return json.JSONEncoder.default(self, obj)
 
 def main(args):
     data_transform = transforms.Compose([
@@ -44,7 +57,7 @@ def main(args):
         transforms.ToTensor(),
         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
     image_dataset = datasets.ImageFolder(args.datadir,data_transform)
-    dataloader =  torch.utils.data.DataLoader(image_dataset, batch_size=1, shuffle=False, num_workers=1)
+    dataloader =  torch.utils.data.DataLoader(image_dataset, batch_size=args.batchsize, shuffle=False, num_workers=1)
     dataset_size = len(image_dataset)
     class_names = image_dataset.classes
     n_cuda=args.ncuda
@@ -74,25 +87,28 @@ def main(args):
     for img, label in dataloader:
         img = img.to(device)
         feat, output = model(img)
-        class_img = class_names[label.data[0]]
-        n_t += 1
-        print(class_img, "{:.2f}%".format(100*n_t/dataset_size), n_t, dataset_size, end="\r")
+        if n_t > 9:
+            break
+        for i, f in enumerate(feat):
+            class_img = class_names[label[i].data]    
         
-        if class_img in features:
-            if device.type == 'cuda':
-                features[class_img].append(feat.cpu().detach().numpy())
+            if class_img in features:
+                if device.type == 'cuda':
+                    features[class_img].append(f.cpu().detach().numpy().tolist())
+                else:
+                    features[class_img].append(f.detach().numpy().tolist())
             else:
-                features[class_img].append(feat.detach().numpy())
-        else:
-            features[class_img] = []
-            if device.type == 'cuda':
-                features[class_img].append(feat.cpu().detach().numpy())
-            else:
-                features[class_img].append(feat.detach().numpy())
-   
+                features[class_img] = []
+                if device.type == 'cuda':
+                    features[class_img].append(f.cpu().detach().numpy().tolist())
+                else:
+                    features[class_img].append(f.detach().numpy().tolist())
+            n_t += 1
+            print(class_img, "{:.2f}%".format(100*n_t/dataset_size), n_t, dataset_size, end="\r")
+        
     print()
  
-
+    
     with open(args.outfile,"w") as tmpfile:
         tmpfile.write(json.dumps(features))
 
@@ -114,6 +130,11 @@ if __name__ == '__main__':
                         dest="weight",
                         type=str,
                         help="weight of the Densenet201 model")
+    parser.add_argument("-b", "--batch_size",
+                        dest="batchsize",
+                        type=int,
+                        default=1,
+                        help="batch size. Default 1")
     parser.add_argument("-c", "--cuda",
                         dest="ncuda",
                         type=int,
