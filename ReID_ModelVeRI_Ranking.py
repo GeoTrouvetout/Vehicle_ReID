@@ -113,17 +113,11 @@ def main(args):
             if d < dmin:
                 dmin = d
                 class_found = ctest
-        print('class found', class_found)
-        print(listd)
-        print(listc)
         MATCH[cquery] = {}
         
-        #print(sorted(zip(listd, listc)))
-        #for i, d, c in enumerate(sorted(zip(listd, listc))):
-        #    MATCH[cquery][i] = {c:d}
-        MATCH[cquery]["dist"] = listd
-        MATCH[cquery]["class"] = listc
-
+        for i, (d, c) in enumerate(sorted(zip(listd, listc))):
+            MATCH[cquery][i+1] = {"id": c, "distance":d}
+        
 
     #### SAVE
     with open(args.outfile,"w") as tmpfile:
