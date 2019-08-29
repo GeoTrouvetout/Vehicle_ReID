@@ -149,8 +149,13 @@ def main(args):
 
                 _dmin = 1000000000
                 for g in fquery:
+                    if args.metric == "MCD":
                     #d = torch.norm(g - f)
-                    d = 1 - cos(g.unsqueeze(0), f.unsqueeze(0))
+                        d = 1 - cos(g.unsqueeze(0), f.unsqueeze(0))
+                    elif args.metric == "MED":
+                        d = torch.norm(g - f)
+                    else:
+                        raise Exception('metric should be either MED or MCD')
                     _dmin = min(_dmin, d.item() )
                     l_d.append(_dmin)
                 l50_d = sorted(l_d)[:int(len(l_d)/2)+1]
@@ -193,6 +198,11 @@ if __name__ == '__main__':
                         dest="weight",
                         type=str,
                         help="weight of the Densenet201 model")
+    parser.add_argument("-m", "--metric",
+                        dest="metric",
+                        type=str,
+                        default="MCD",
+                        help="Distance metric used. MED or MCD (Default: MCD). For track-to-track distance computation, the aggregation function is mean50 (the mean of the smallest image-to-image distances)",)  
     parser.add_argument("-b", "--batch_size",
                         dest="batchsize",
                         type=int,
