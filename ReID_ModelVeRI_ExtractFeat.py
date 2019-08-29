@@ -87,8 +87,8 @@ def main(args):
     for img, label in dataloader:
         img = img.to(device)
         feat, output = model(img)
-        if n_t == 10:
-            break
+        #if n_t == 10:
+        #    break
         for i, f in enumerate(feat):
             class_img = class_names[label[i].data]    
         
@@ -115,7 +115,7 @@ def main(args):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description="Program to extract Latent Representation from the latent space of the CNN Densenet201.")
+    parser = argparse.ArgumentParser(description="Program to extract Latent Representation of tracks, from the latent space of the CNN Densenet201.")
     parser.add_argument("-d", "--dataset_dir",
                         dest="datadir",
                         type=str,
