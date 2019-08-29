@@ -87,6 +87,8 @@ def main(args):
     for img, label in dataloader:
         img = img.to(device)
         feat, output = model(img)
+        if n_t == 10:
+            break
         for i, f in enumerate(feat):
             class_img = class_names[label[i].data]    
         
