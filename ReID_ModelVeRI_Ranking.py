@@ -106,16 +106,21 @@ def main(args):
                         raise Exception('metric should be either MED or MCD')
                     _dmin = min(_dmin, d.item() )
                     l_d.append(_dmin)
-                l50_d = sorted(l_d)[:int(len(l_d)/2)+1]
+            l50_d = sorted(l_d)[:int(len(l_d)/2)+1]
                 
-                d = np.mean(l50_d)
-                listd.append(d)
-                if d < dmin:
-                    dmin = d
-                    class_found = ctest
+            d = np.mean(l50_d)
+            listd.append(d)
+            if d < dmin:
+                dmin = d
+                class_found = ctest
+        print('class found', class_found)
         print(listd)
         print(listc)
         MATCH[cquery] = {}
+        
+        #print(sorted(zip(listd, listc)))
+        #for i, d, c in enumerate(sorted(zip(listd, listc))):
+        #    MATCH[cquery][i] = {c:d}
         MATCH[cquery]["dist"] = listd
         MATCH[cquery]["class"] = listc
 
