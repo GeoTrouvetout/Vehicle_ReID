@@ -71,7 +71,7 @@ def main(args):
 
     if args.weight:
         if device.type == 'cuda':
-            model.load_state_dict(torch.load(args.weight))
+            model.load_state_dict(torch.load(args.weight, map_location='cuda:'+str(n_cuda)))
         else:
             #torch.load('my_file.pt', map_location=lambda storage, location: 'cpu')
             model.load_state_dict(torch.load(args.weight, map_location='cpu'))
