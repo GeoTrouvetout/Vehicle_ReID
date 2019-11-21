@@ -73,7 +73,6 @@ def main(args):
         if device.type == 'cuda':
             model.load_state_dict(torch.load(args.weight, map_location='cuda:'+str(n_cuda)))
         else:
-            #torch.load('my_file.pt', map_location=lambda storage, location: 'cpu')
             model.load_state_dict(torch.load(args.weight, map_location='cpu'))
 
     model = model.to(device)
@@ -87,8 +86,7 @@ def main(args):
     for img, label in dataloader:
         img = img.to(device)
         feat, output = model(img)
-        #if n_t == 10:
-        #    break
+
         for i, f in enumerate(feat):
             class_img = class_names[label[i].data]    
         
