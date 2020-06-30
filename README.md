@@ -1,4 +1,4 @@
-# Vehicle Re-Identification using CNN Latent Spaces 
+# Vehicle Re-Identification using Track-to-track ranking of deep latent representation of vehicles
 
 This repository is related to the publication "Improving Vehicle Re-Identification using CNN Latent Spaces: Metrics Comparison and Track-to-track Extension" (https://arxiv.org/abs/1910.09458). This paper is a preprint of a paper submitted to IET Computer Vision (https://digital-library.theiet.org/content/journals/iet-cvi).
 
