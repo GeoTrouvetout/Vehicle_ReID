@@ -107,8 +107,8 @@ def main(args):
     print()
  
     
-    with open(args.outfile,"w") as tmpfile:
-        tmpfile.write(json.dumps(features))
+    with open(args.outfile,"w") as f:
+        f.write(json.dumps(features))
 
 
 
@@ -140,7 +140,6 @@ if __name__ == '__main__':
                         help="ID of the CUDA device to use (0 by default).(CPU if no CUDA is available). ")
     args = parser.parse_args()
     main(args)
-
 
 
 
