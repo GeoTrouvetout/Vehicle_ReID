@@ -8,7 +8,7 @@ This repository is related to the publication "Improving Vehicle Re-Identificati
 
 We defined track of vehicle $T_k$ as a set of $N_k$ images of a vehicle recorded by a given camera. 
 
-$$T_k=\{I_{k,1}, ..., I_{k,N_k}\}$$
+\[T_k=\{I_{k,1}, ..., I_{k,N_k}\}\]
 
 
 For a given image $I_{k,i}\in \mathbb{R}^{n\times m}$, we extract its latent representation (LR) $L_{k,i} \in \mathbb{R}^{f}$ by projecting it in the latent space of a neural network $\mathcal{N}$ (in our experiments, the second-to-last layer of a CNN).
