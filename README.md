@@ -25,30 +25,35 @@ The track-to-track ranking (T2T) process consists in ranking every track of <img
 
 ### Distance metric (I2T)
 
-In image-to-track (I2T) ranking process the distance <img src="https://render.githubusercontent.com/render/math?math=d(.)"> is computed between a query composed of one LR image <img src="https://render.githubusercontent.com/render/math?math=L_{q,i}"> and a track <img src="https://render.githubusercontent.com/render/math?math=\mathbf{L}_r = \{L_{r, 1}, ..., L_{r, n_t}\}"> (a set of images)
+In image-to-track (I2T) ranking process the distance <img src="https://render.githubusercontent.com/render/math?math=d(.)"> is computed between a query composed of one LR image <img src="https://render.githubusercontent.com/render/math?math=L_{q}"> and a track <img src="https://render.githubusercontent.com/render/math?math=\mathbf{L}_r = \{L_{r, 1}, ..., L_{r, n_t}\}"> (a set of images)
 
 
     - MED : Minimal Euclidean Distance
 
- <img src="https://render.githubusercontent.com/render/math?math=d(L_{q,i}, \mathbf{L}_r) = \min_{i \in \{1, ..., N_r\} }(|| L_q - L_{r,i} ||_2),">
+ <img src="https://render.githubusercontent.com/render/math?math=d(L_{q}, \mathbf{L}_r) = \underset{i \in \{1, ..., N_r\}}{min} (|| L_q - L_{r,i} ||_2),">
 
     - MCD : Minimal Cosine Distance
 
-$$d(L_{q,i}, \mathbf{L}_r) = \min_{i \in \{1, ..., N_r\} }(1 - \frac{L_q^\top L_{r, i}}{|| L_q ||_2  || L_{r,i} ||_2} )$$
+<img src="https://render.githubusercontent.com/render/math?math=d(L_{q}, \mathbf{L}_r) = \underset{i \in \{1, ..., N_r\}}{min}  (1 - \frac{L_q^\top L_{r, i}}{|| L_q ||_2  || L_{r,i} ||_2} )"> 
 
-<img src="https://render.githubusercontent.com/render/math?math=d(L_{q,i}, \mathbf{L}_r) = \min_{i \in \{1, ..., N_r\} }(1 - \frac{L_q^\top L_{r, i}}{|| L_q ||_2  || L_{r,i} ||_2} )"> 
-
-    - RSCR : Residual of the Sparse Coding Reconstruction (no aggregation function for T2TP)
+    - RSCR : Residual of the Sparse Coding Reconstruction
   
-<img src="https://render.githubusercontent.com/render/math?math=d(L_q, \mathbf{L}_r ) = {|| L_q -  \mathbf{L}_r\Gamma_{q,r} ||_2}^2">
+<img src="https://render.githubusercontent.com/render/math?math=d(L_q, \mathbf{L}_r ) = {|| L_q -  \mathbf{L}_r \Gamma_{q,r} ||_2}^2">
 
 with 
 
-<img src="https://render.githubusercontent.com/render/math?math=\Gamma_{q,r} = \underset{\tilde{\Gamma}_{q,r}}{\mathrm{argmin}} ( {|| L_q -  \mathbf{L}_r \tilde{\Gamma}_{q,r} ||_2}^2  \+ +\alpha || \tilde{\Gamma}_{q,r} ||_1)">
+<img src="https://render.githubusercontent.com/render/math?math=\Gamma_{q,r} = \underset{\tilde{\Gamma}_{q,r}}{\mathrm{argmin}} ( { || L_q -  \mathbf{L}_r \tilde{\Gamma}_{q,r} ||_2}^2 + 
+\alpha || \tilde{\Gamma}_{q,r} ||_1) ">
 
 
 
-### Aggregation function
+### Aggregation function for T2TP
+
+In track-to-track (T2T) ranking process the distance <img src="https://render.githubusercontent.com/render/math?math=d(.)"> is computed between a query track <img src="https://render.githubusercontent.com/render/math?math=\mathbf{L}_{q} = \{L_{q, 1}, ..., L_{q, n_q}\}"> and a test track <img src="https://render.githubusercontent.com/render/math?math=\mathbf{L}_r = \{L_{r, 1}, ..., L_{r, n_t}\}">. 
+
+- If the distance metric is based on MED or MCD, an aggregation function <img src="https://render.githubusercontent.com/render/math?math=agg(.)"> is used to aggregate the set of I2T distances (<img src="https://render.githubusercontent.com/render/math?math=d_{i2t}(.)">) between each <img src="https://render.githubusercontent.com/render/math?math=L_{q, i}"> of the query and the test track <img src="https://render.githubusercontent.com/render/math?math=\mathbf{L}_r"> : 
+
+<img src="https://render.githubusercontent.com/render/math?math=d(\mathbf{L}_q, \mathbf{L}_r) = agg ( \{ d_{i2t}(L_{q,1}, \mathbf{L}_r), ...,  d_{i2t}(L_{q,n_q}, \mathbf{L}_{r}) \} ) ">
 
     - min : minimum of distances
     - mean : average of distances
@@ -56,14 +61,18 @@ with
     - mean50 : average of distances between the 50% smallest distances
     - med50 : average of distances between 50% smallest distances
 
+- If the distance is based on RSCR, the distance between <img src="https://render.githubusercontent.com/render/math?math=\mathbf{L}_{q}"> and <img src="https://render.githubusercontent.com/render/math?math=\mathbf{L}_r "> is computed as follows : 
+
+
+<img src="https://render.githubusercontent.com/render/math?math=d(\mathbf{L}_q, \mathbf{L}_r ) = || \mathbf{L}_q -  \mathbf{L}_r \mathbf{\Gamma}_{q,r} ||_F">
+
+with 
+
+<img src="https://render.githubusercontent.com/render/math?math={\Gamma}_{q_i,r} = \underset{\tilde{\Gamma}_{q_i,r}}{\mathrm{argmin}} ( {|| L_{q,i} -  \mathbf{L}_r \tilde{\Gamma}_{q_i,r} ||_2}^2  + \alpha || \tilde{\Gamma}_{q_i,r} ||_1)">
+
+Note : <img src="https://render.githubusercontent.com/render/math?math=||.||_F"> denotes the Frobenius norm
 
 ## The package ```vehicle_reid```
-
-### Dependencies
-- numpy==1.19.2
-- torchvision==0.7.0
-- torch==1.6.0
-- scikit_learn==0.23.2
 
 The python package ```vehicle_reid``` contains code for :
 1. Extract the latent representation of images of vehicle using the second-to-last layer of our CNN fine-tuned in the task of vehicle recognition as proposed in our paper. The CNN considered here is based on the DenseNet201 (https://arxiv.org/abs/1608.06993) architectures which has been fine-tuned using the VeRI dataset (https://github.com/VehicleReId/VeRidataset). Corresponding weights are given in ```"data/cnn_weights/VeRI_densenet_ft50.pth"```
@@ -79,7 +88,11 @@ The module ```vehicle_reid``` is composed of 3 modules
 - ```performance.py```
     - Compute the performance metrics. namely rank1 rank5 and mAP (See paper for details)
 
-
+### Dependencies
+- numpy==1.19.2
+- torchvision==0.7.0
+- torch==1.6.0
+- scikit_learn==0.23.2
 
 ### Running example 
 The directory ```data``` contains data to test the module ```vehicle_reid```. Note that to perform the VeRI experiments presented on the paper, you'll need the VeRI dataset which can be found, by simple request to authors, here : https://github.com/JDAI-CV/VeRidataset
