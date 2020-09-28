@@ -17,9 +17,9 @@ We construct the matrix <img src="https://render.githubusercontent.com/render/ma
 
 ### T2T Ranking procedure
 
-Given a distance metric $d(.)$, a query track $T_q$, and a set of test tracks $\mathcal{T}=\{T_1, ..., T_{n_t}\}$
+Given a distance metric <img src="https://render.githubusercontent.com/render/math?math=d(.)">, a query track <img src="https://render.githubusercontent.com/render/math?math=T_q">, and a set of test tracks <img src="https://render.githubusercontent.com/render/math?math=\mathcal{T}=\{T_1, ..., T_{n_t}\}">
 
-The track-to-track ranking (T2T) process consists in ranking every track of $\mathcal{T}$ to construct an ordered set $\tilde{\mathcal{T}}_q = \{T_{q,1}, ..., T_{q,N_t}\}$, such that a track $T_{q,i}$ is the $i^{th}$ nearest track from the query according to the distance function $d(.)$, $T_{q, 1}$ being the first match (i.e. the nearest) and $T_{q, N_t}$, being the last (i.e. the farthest).
+The track-to-track ranking (T2T) process consists in ranking every track of <img src="https://render.githubusercontent.com/render/math?math=\mathcal{T}"> to construct an ordered set <img src="https://render.githubusercontent.com/render/math?math=\tilde{\mathcal{T}}_q = \{T_{q,1}, ..., T_{q,N_t}\}">, such that a track <img src="https://render.githubusercontent.com/render/math?math=T_{q,i}"> is the <img src="https://render.githubusercontent.com/render/math?math=i^{th}"> nearest track from the query according to the distance function <img src="https://render.githubusercontent.com/render/math?math=d(.)">, <img src="https://render.githubusercontent.com/render/math?math=T_{q, 1}"> being the first match (i.e. the nearest) and <img src="https://render.githubusercontent.com/render/math?math=T_{q, N_t}">, being the last (i.e. the farthest).
 
 ![alt](img/LR_extraction_2.png)
 
