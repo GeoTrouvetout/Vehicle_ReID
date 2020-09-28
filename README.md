@@ -42,7 +42,7 @@ In image-to-track (I2T) ranking process the distance <img src="https://render.gi
 
 with 
 
-<img src="https://render.githubusercontent.com/render/math?math=\Gamma_{q,r} = \underset{\tilde{\Gamma}_{q,r} } {\mathrm{argmin}} ( || L_q -  \mathbf{L}_r \tilde{\Gamma}_{q,r} ||_2^2 %2B
+<img src="https://render.githubusercontent.com/render/math?math=\Gamma_{q,r} = \underset{\tilde{\Gamma}_{q,r} } {\mathrm{argmin}} ( {|| L_q -  \mathbf{L}_r \tilde{\Gamma}_{q,r} ||_2}^2 %2B
 \alpha || \tilde{\Gamma}_{q,r} ||_1 ) ">
 
 
