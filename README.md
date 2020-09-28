@@ -34,6 +34,8 @@ In image-to-track (I2T) ranking process the distance <img src="https://render.gi
 
     - MCD : Minimal Cosine Distance
 
+$$d(L_{q,i}, \mathbf{L}_r) = \min_{i \in \{1, ..., N_r\} }(1 - \frac{L_q^\top L_{r, i}}{|| L_q ||_2  || L_{r,i} ||_2} )$$
+
 <img src="https://render.githubusercontent.com/render/math?math=d(L_{q,i}, \mathbf{L}_r) = \min_{i \in \{1, ..., N_r\} }(1 - \frac{L_q^\top L_{r, i}}{|| L_q ||_2  || L_{r,i} ||_2} )"> 
 
     - RSCR : Residual of the Sparse Coding Reconstruction (no aggregation function for T2TP)
