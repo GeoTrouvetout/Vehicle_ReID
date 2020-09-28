@@ -15,7 +15,7 @@ We construct the matrix <img src="https://render.githubusercontent.com/render/ma
 
 ![alt](img/lr_extraction_one.png)
 
-### T2T Ranking procedure
+### I2T/T2T Ranking procedure
 
 Given a distance metric <img src="https://render.githubusercontent.com/render/math?math=d(.)">, a query track <img src="https://render.githubusercontent.com/render/math?math=T_q">, and a set of test tracks <img src="https://render.githubusercontent.com/render/math?math=\mathcal{T}=\{T_1, ..., T_{n_t}\}">
 
@@ -23,14 +23,16 @@ The track-to-track ranking (T2T) process consists in ranking every track of <img
 
 ![alt](img/LR_extraction_2.png)
 
+The image-to-track ranking (I2T) corresponds to the T2T ranking procedure but with a query track composed of only one image <img src="https://render.githubusercontent.com/render/math?math=T_q = I_q">, and its corresponding LR <img src="https://render.githubusercontent.com/render/math?math=L_q"> (only the distance metric d used differs). 
+
 ### Distance metric (I2T)
 
-In image-to-track (I2T) ranking process the distance <img src="https://render.githubusercontent.com/render/math?math=d(.)"> is computed between a query composed of one LR image <img src="https://render.githubusercontent.com/render/math?math=L_{q}"> and a track <img src="https://render.githubusercontent.com/render/math?math=\mathbf{L}_r = \{L_{r, 1}, ..., L_{r, n_t}\}"> (a set of images)
+In I2T ranking process the distance <img src="https://render.githubusercontent.com/render/math?math=d(.)"> is computed between a query composed of one image <img src="https://render.githubusercontent.com/render/math?math=L_{q}">, and a test track <img src="https://render.githubusercontent.com/render/math?math=\mathbf{L}_r = \{L_{r, 1}, ..., L_{r, n_t}\}">.
 
 
     - MED : Minimal Euclidean Distance
 
- <img src="https://render.githubusercontent.com/render/math?math=d(L_{q}, \mathbf{L}_r) = \underset{i \in \{1, ..., N_r\}}{min} (|| L_q - L_{r,i} ||_2),">
+ <img src="https://render.githubusercontent.com/render/math?math=d(L_{q}, \mathbf{L}_r) = \underset{i \in \{1, ..., N_r\}}{min} (|| L_q - L_{r,i} ||_2)">
 
     - MCD : Minimal Cosine Distance
 
