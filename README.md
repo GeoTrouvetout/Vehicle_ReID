@@ -23,6 +23,36 @@ The track-to-track ranking (T2T) process consists in ranking every track of <img
 
 ![alt](img/LR_extraction_2.png)
 
+### Distance metric (I2T)
+
+In image-to-track (I2T) ranking process the distance <img src="https://render.githubusercontent.com/render/math?math=d(.)"> is computed between a query composed of one LR image <img src="https://render.githubusercontent.com/render/math?math=L_{q,i}"> and a track <img src="https://render.githubusercontent.com/render/math?math=\mathbf{L}_r = \{L_{r, 1}, ..., L_{r, n_t}\}"> (a set of images)
+
+
+    - MED : Minimal Euclidean Distance
+
+ <img src="https://render.githubusercontent.com/render/math?math=d(L_{q,i}, \mathbf{L}_r) = \min_{i \in \{1, ..., N_r\} }(|| L_q - L_{r,i} ||_2),">
+
+    - MCD : Minimal Cosine Distance
+
+<img src="https://render.githubusercontent.com/render/math?math=d(L_{q,i}, \mathbf{L}_r) = \min_{i \in \{1, ..., N_r\} }(1 - \frac{L_q^\top L_{r, i}}{|| L_q ||_2  || L_{r,i} ||_2} )"> 
+
+    - RSCR : Residual of the Sparse Coding Reconstruction (no aggregation function for T2TP)
+  
+<img src="https://render.githubusercontent.com/render/math?math=d(L_q, \mathbf{L}_r ) = {|| L_q -  \mathbf{L}_r\Gamma_{q,r} ||_2}^2">
+
+with 
+
+<img src="https://render.githubusercontent.com/render/math?math=\Gamma_{q,r} = \underset{\tilde{\Gamma}_{q,r}}{\mathrm{argmin}} ( {|| L_q -  \mathbf{L}_r \tilde{\Gamma}_{q,r} ||_2}^2  \+ +\alpha || \tilde{\Gamma}_{q,r} ||_1)">
+
+
+
+### Aggregation function
+
+    - min : minimum of distances
+    - mean : average of distances
+    - med : median of distances
+    - mean50 : average of distances between the 50% smallest distances
+    - med50 : average of distances between 50% smallest distances
 
 
 ## The package ```vehicle_reid```
